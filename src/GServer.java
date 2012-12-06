@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.util.logging.SocketHandler;
 
 
 // class : PizzaServer 
@@ -23,7 +24,22 @@ public class GServer {
 		int port =9000;
 		// 서버소켓 생성.
 		ServerSocket server = new ServerSocket(port);
+		GDBHandler dbhandler = new GDBHandler();
+		
 		System.out.println("Gesitoring Server Started..!!!");
+		
+		/* DB 핸들러 초기화 */
+		try {
+			dbhandler.init();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			//e.printStackTrace();
+		}
+	
+		
+		
+		
+		
 		// 다수의 클라이언트의 접속을 받아드리기 위해서 무한반복 수행.
 		while (true) {
 			// 클라이언트의 접속을 대기.
@@ -32,10 +48,10 @@ public class GServer {
 		// 접속한 클라이언트의 정보를 출력.
 		System.out.println("Accepted from: " + client.getInetAddress());
 		// 클라이언트 socket객체를 인자로 PizzaHandler형 객체를 생성.
-		GSocketHandler handler = new GSocketHandler(client);
+		GSocketHandler sockethandler = new GSocketHandler(client);
 		// handler의 init() 메소드를 호출.
-		handler.init();
+		sockethandler.init();
+		
 		}
-
 	}
 }
